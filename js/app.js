@@ -2,6 +2,17 @@ debugVars = {};
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+    $('.modal').each(function(){
+        var src = $(this).find('iframe').attr('src');
+
+        $(this).on('click', function(){
+
+            $(this).find('iframe').attr('src', '');
+            $(this).find('iframe').attr('src', src);
+
+        });
+    });
 });
 
 //  Create Angular App
