@@ -4,7 +4,7 @@
 <div class="row">
     <p class="col-md-6 center-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla gravida eu felis et volutpat. Donec ante ante, scelerisque at eros vel, ornare pretium felis. Integer hendrerit sagittis magna nec feugiat. Integer lectus enim, fringilla ut molestie ut, egestas at ante. Morbi sagittis non dolor fringilla gravida. Phasellus ac viverra quam, ac pellentesque sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent ullamcorper nunc neque, et consequat nunc mollis sit amet. Aenean faucibus id sem vel lacinia. Integer sagittis enim auctor pulvinar semper. Vivamus sit amet semper nulla, id ultrices ligula. Ut porttitor euismod felis at lacinia.</p>
 </div>
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" name="formInfo">
     <div class="col-md-6 center-block">
         <div class="form-group">
             <label class="control-label col-md-2" for="formName">Name:</label>
@@ -24,6 +24,26 @@
             <label class="control-label col-md-2" for="formPhone">Phone Number:</label>
             <div class="col-md-10">
                 <input type="email" class="form-control" id="formPhone" placeholder="123-456-7890">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="formPhone">Preferred Contact:</label>
+            <div class="col-md-10">
+                <select class="form-control" id="formContact">
+                    <option>Select your preferred method of communication</option>
+                    <option value="sms">Text Message</option>
+                    <option value="call">Phone Call</option>
+                    <option value="email">Email</option>
+                    <option value="fb">Facebook</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="formJob">Occupation:</label>
+            <div class="col-md-10">
+                <input type="email" class="form-control" id="formJob" placeholder="Current Job/Occupation">
             </div>
         </div>
 
@@ -87,12 +107,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formJob">Occupation:</label>
-            <div class="col-md-10">
-                <input type="email" class="form-control" id="formJob" placeholder="Current Job/Occupation">
-            </div>
-        </div>
+
     </div>
 
 </form>
@@ -123,5 +138,32 @@
                 </tr>
             </table>
         </div>
+
+        <div class="form-group">
+            <label for="enterAdditional">Any other experience and/or skills you possess that would contribute to your prospective positions(s)?</label>
+            <textarea class="form-control" rows="5" id="enterAdditional"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="enterWhy">Why do you want to work for WASMUN?</label>
+            <textarea class="form-control" rows="5" id="enterWhy"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="enterHours">How many hours a week are you available?</label> {{hoursWeek}}
+            <input id="enterHours" ng-model="hoursWeek" type="range" name="points" min="0" max="168">
+        </div>
+
+        <div class="checkbox">
+            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable">I am available until late April, possible early May.</label>
+        </div>
     </div>
+
+
+
+
+</form>
+
+<form name="form" role="form" novalidate>
+
 </form>
