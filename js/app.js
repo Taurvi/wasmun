@@ -43,4 +43,8 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
             delete $scope.experienceObject[id];
         });
     }
+
+    $scope.submitForm = function() {
+        alert("This form doesn't feel like doing anything!");
+    }
 }]);
