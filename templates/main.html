@@ -79,24 +79,29 @@
 
 </form>
 
-<form role="form">
+<form name="formExperience" role="form" novalidate>
     <div class="col-md-6 center-block">
         <div class="form-group">
             <label for="enterExperience">Please list your Model United Nations experience (Middle school, high school, and College):</label>
 
             <table class="table table-striped table-bordered">
                 <tr>
-                    <th class="col-md-1">Year</th>
-                    <th class="col-md-10">Experience</th>
+                    <th class="col-md-2">Year</th>
+                    <th class="col-md-9">Experience</th>
                     <th class="col-md-1">Add/Remove</th>
                 </tr>
                 <tr>
-                    <td><input type="email" class="form-control" id="enterYear" placeholder="####"></td>
+                    <td><input type="text" class="form-control" id="enterYear" ng-model="enterYear" max-legnt="4" placeholder="Year" required></td>
                     <td>
-                        <input type="email" class="form-control" id="enterExperience" placeholder="Enter your experience here"></td>
+                        <input type="text" class="form-control" id="enterExperience" ng-model="enterExperience" placeholder="Enter your experience here" required></td>
                     <td>
-                        <button class="btn btn-primary col-md-12">Add</button>
+                        <button class="btn btn-primary col-md-12" ng-disabled="formExperience.$invalid" ng-click="addExperience(enterYear, enterExperience)">Add</button>
                     </td>
+                </tr>
+                <tr ng-repeat="element in experienceObject">
+                    <td>{{element.year}}</td>
+                    <td>{{element.experience}}</td>
+                    <td><button class="btn btn-danger col-md-12" ng-click="removeExperience(element.id)">Remove</button></td>
                 </tr>
             </table>
         </div>
