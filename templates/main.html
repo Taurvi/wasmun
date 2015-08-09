@@ -82,8 +82,23 @@
 <form role="form">
     <div class="col-md-6 center-block">
         <div class="form-group">
-            <label for="searchSchool">Which high school did you attend?</label>
-                <input type="email" class="form-control" id="searchSchool" placeholder="Enter your school's name">
+            <label for="enterExperience">Please list your Model United Nations experience (Middle school, high school, and College):</label>
+
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th class="col-md-1">Year</th>
+                    <th class="col-md-10">Experience</th>
+                    <th class="col-md-1">Add/Remove</th>
+                </tr>
+                <tr>
+                    <td><input type="email" class="form-control" id="enterYear" placeholder="####"></td>
+                    <td>
+                        <input type="email" class="form-control" id="enterExperience" placeholder="Enter your experience here"></td>
+                    <td>
+                        <button class="btn btn-primary col-md-12">Add</button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </form>
