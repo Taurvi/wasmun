@@ -4,7 +4,7 @@ var api_education_address = 'http://api.education.com/service/service.php?f=scho
 var newData;
 $.ajax({
     url: api_education_address,
-    dataType: 'json',
+    dataType: 'jsonp',
     success: function(data) {
         newData = data
     }
