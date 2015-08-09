@@ -1,5 +1,5 @@
 var api_education_key = '2457a68d742f0189540113838a4a6376';
-var api_education_address = 'http://api.education.com/service/service.php?f=schoolSearch&key=' + api_education_key + '&sn=sf&v=4&zip=98155';
+var api_education_address = 'http://api.education.com/service/service.php?f=schoolSearch&key=' + api_education_key + '&sn=sf&v=4&zip=98155&resf=json';
 
 var newData;
 $.ajax({
