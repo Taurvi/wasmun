@@ -1,5 +1,9 @@
 debugVars = {};
 
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
+
 //  Create Angular App
 var ngApp = angular.module('ngApp', ['ngRoute']);
 
