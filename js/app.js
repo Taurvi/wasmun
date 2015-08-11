@@ -85,6 +85,7 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
         alert("This form doesn't feel like doing anything!");
     }
 
+    //Still in progress
     $scope.verify = function(type) {
         message = {};
         switch(type) {
