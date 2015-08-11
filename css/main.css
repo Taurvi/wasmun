@@ -14,3 +14,7 @@ img, .center-block {
 li {
     padding: 10px;
 }
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}

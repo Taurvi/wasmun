@@ -1,5 +1,12 @@
 debugVars = {};
 
+debugMode = true;
+
+var debugMsg = function(msg) {
+    if (debugMode)
+        console.log('<<<DEBUG>>> ' + msg);
+}
+
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
@@ -27,35 +34,65 @@ ngApp.config(function($routeProvider) {
 });
 
 ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+    $scope.data={};
+
     $scope.isActive = function (viewLocation) {
         var active = (viewLocation === $location.path());
         return active;
     };
 
     $scope.experienceObject = {};
+    $scope.staffObject = {};
 
-    $scope.addExperience = function(year, experience) {
-        var id = Math.floor(Math.random()*(1000-0+1)+0)
+    $scope.addExperience = function(year, experience, type) {
+        var id = Math.floor(Math.random()*(1000 - 0 + 1 ) + 0);
+        if(type == "experience") {
+            while ($scope.experienceObject.hasOwnProperty(id))
+                id = Math.floor(Math.random() * (1000 - 0 + 1)+ 0);
 
-        while ($scope.experienceObject.hasOwnProperty(id))
-            id = Math.floor(Math.random()*(1000-0+1)+0)
+            $scope.experienceObject[id] = {
+                'id' : id,
+                'year' : year,
+                'experience' : experience
+            };
+            $scope.enterYear = "";
+            $scope.enterExperience = "";
+        } else {
+            while ($scope.staffObject.hasOwnProperty(id))
+                id = Math.floor(Math.random() * (1000 - 0 + 1) + 0);
 
-        $scope.experienceObject[id] = {
-            'id' : id,
-            'year' : year,
-            'experience' : experience
-        };
-        $scope.enterYear = "";
-        $scope.enterExperience = "";
-    }
+            $scope.staffObject[id] = {
+                'id' : id,
+                'year' : year,
+                'experience' : experience
+            };
+            $scope.enterSYear = "";
+            $scope.enterSExperience = "";
+        }
 
-    $scope.removeExperience = function(id){
+    };
+
+    $scope.removeExperience = function(id, type){
         $timeout(function() {
-            delete $scope.experienceObject[id];
+            if(type == 'experience')
+                delete $scope.experienceObject[id];
+            else
+                delete $scope.staffObject[id];
         });
-    }
+    };
 
     $scope.submitForm = function() {
         alert("This form doesn't feel like doing anything!");
+    }
+
+    $scope.verify = function(type) {
+        message = {};
+        switch(type) {
+            case 'email':
+                    console.log($scope.formEmail.$invalid);
+                break;
+            default:
+                debugMsg("VERIFY FUNCTION HAS FAILED!")
+        }
     }
 }]);
