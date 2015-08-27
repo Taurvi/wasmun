@@ -201,7 +201,7 @@
         </div>
 
         <div class="checkbox">
-            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable" required>I am available until late April, possible early May.</label>
+            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable">I am available until late April, possible early May.</label>
         </div>
 
 
@@ -211,5 +211,8 @@
 <div class="col-md-6 center-block">
     <div class="text-center">
         <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" ng-click="submitForm()" ng-disabled="formInfo.$invalid || formEnter.$invalid || ngHoursWeek <= 1 || !checkPositions()">Submit Application</button>
+        <div class="error-message" ng-show="formInfo.$invalid || formEnter.$invalid || ngHoursWeek <= 1 || !checkPositions()">
+            <i class="fa fa-exclamation-triangle"></i> Elements of the application form are incomplete still. Please check that you have filled out all the required fields, indicated with asterisks (*).
+        </div>
     </div>
 </div>
