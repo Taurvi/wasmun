@@ -4,57 +4,66 @@
 <div class="row">
     <p class="col-md-6 center-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla gravida eu felis et volutpat. Donec ante ante, scelerisque at eros vel, ornare pretium felis. Integer hendrerit sagittis magna nec feugiat. Integer lectus enim, fringilla ut molestie ut, egestas at ante. Morbi sagittis non dolor fringilla gravida. Phasellus ac viverra quam, ac pellentesque sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent ullamcorper nunc neque, et consequat nunc mollis sit amet. Aenean faucibus id sem vel lacinia. Integer sagittis enim auctor pulvinar semper. Vivamus sit amet semper nulla, id ultrices ligula. Ut porttitor euismod felis at lacinia.</p>
 </div>
-<form class="form-horizontal" role="form" name="formInfo" novalidate="true">
+<form class="form-horizontal" role="form" name="formInfo" novalidate>
     <div class="col-md-6 center-block">
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formName">Name:</label>
+        <div class="form-group" ng-class="{'has-error': formInfo.formName.$invalid && formInfo.formName.$touched, 'has-success': formInfo.formName.$valid && formInfo.formName.$touched}">
+            <label class="control-label col-md-2" for="formName">*Name:</label>
             <div class="col-md-10">
-                <input type="input" class="form-control" id="formName" ng-model="formName" placeholder="First and Last" ng-class="{'has-error': formInfo.formName.$valid}" required>
+                <input type="input" class="form-control" id="formName" name="formName" ng-model="ngFormName" placeholder="First and Last" required>
+                    <div class="error-message" ng-show="formInfo.formName.$invalid && formInfo.formName.$touched">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a valid name.
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formInfo.formEmail.$invalid && formInfo.formEmail.$touched, 'has-success': formInfo.formEmail.$valid && formInfo.formEmail.$touched}">
+            <label class="control-label col-md-2" for="formEmail">*Email:</label>
+            <div class="col-md-10">
+                <input type="email" class="form-control has-error" id="formEmail" name="formEmail" ng-model="ngFormEmail" ng-model-options="{updateOn: 'mousedown blur'}" placeholder="example@foobar.com" required>
+                <div class="error-message" ng-show="formInfo.formEmail.$invalid && formInfo.formEmail.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter a valid email address.
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formEmail">Email:</label>
+        <div class="form-group" ng-class="{'has-error': formInfo.formPhone.$invalid && formInfo.formPhone.$touched, 'has-success': formInfo.formPhone.$valid && formInfo.formPhone.$touched}">
+            <label class="control-label col-md-2" for="formPhone">*Phone Number:</label>
             <div class="col-md-10">
-                <input type="email" class="form-control" id="formEmail" ng-model="formEmail" ng-model-options="{updateOn: 'mousedown blur'}" placeholder="example@foobar.com">
-                <span ng-show="verify('email')">Test!</span>
-                {{formEmail}}
+                <input type="text" class="form-control" id="formPhone" name="formPhone" ng-minlength="10" ng-model="ngFormPhone" placeholder="123-456-7890" required>
+                <div class="error-message" ng-show="formInfo.formPhone.$invalid && formInfo.formPhone.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter a valid phone number.
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formPhone">Phone Number:</label>
+        <div class="form-group" ng-class="{'has-error': ngFormContact == null && formInfo.formContact.$touched, 'has-success': ngFormContact != null && formInfo.formContact.$touched}">
+            <label class="control-label col-md-2" for="formContact">*Contact me by:</label>
             <div class="col-md-10">
-                <input type="email" class="form-control" id="formPhone" placeholder="123-456-7890">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formPhone">Contact me by:</label>
-            <div class="col-md-10">
-                <select class="form-control" id="formContact">
-                    <option>Select your preferred method of communication</option>
-                    <option value="sms">Text Message</option>
-                    <option value="call">Phone Call</option>
-                    <option value="email">Email</option>
-                    <option value="fb">Facebook</option>
+                <select class="form-control" id="formContact" name="formContact" ng-model="ngFormContact" ng-options="methods.value as methods.name for methods in contactMethods" required>
                 </select>
+                <div class="error-message" ng-show="ngFormContact == null && formInfo.formContact.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please select a preferred method of communication.
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="formJob">Occupation:</label>
+        <div class="form-group" ng-class="{'has-error': formInfo.formJob.$invalid && formInfo.formJob.$touched, 'has-success': formInfo.formJob.$valid && formInfo.formJob.$touched}">
+            <label class="control-label col-md-2" for="formJob">*Occupation:</label>
             <div class="col-md-10">
-                <input type="email" class="form-control" id="formJob" placeholder="Current Job/Occupation">
+                <input type="text" class="form-control" id="formJob" name="formJob" ng-model="ngFormJob" placeholder="Current Job/Occupation" required>
+                <div class="error-message" ng-show="formInfo.formJob.$invalid && formInfo.formJob.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter in your current job/occupation.
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Positions:</label>
+        <div class="form-group" ng-class="{'has-success': checkPositions()}">
+            <label class="control-label col-md-2">*Positions:</label>
             <div class="col-md-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" id="positionDG">
+                        <input type="checkbox" ng-model="ngPositionDG">
                         Director General
                     </label>
                     <a href="" data-toggle="modal" data-target="#posDG">
@@ -63,7 +72,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="positionADG">
+                        <input type="checkbox" ng-model="ngPositionADG">
                         Assistant Director General
                     </label>
                     <a href="" data-toggle="modal" data-target="#posADG">
@@ -72,7 +81,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="positionPR">
+                        <input type="checkbox" ng-model="ngPositionPR">
                         Under-Secretary General of Public Relations
                     </label>
                     <a href="" data-toggle="modal" data-target="#posPR">
@@ -81,7 +90,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="positionF">
+                        <input type="checkbox" ng-model="ngPositionF">
                         Under-Secretary General of Finances
                     </label>
                     <a href="" data-toggle="modal" data-target="#posF">
@@ -90,7 +99,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="positionR">
+                        <input type="checkbox" ng-model="ngPositionR">
                         Under-Secretary General of Registration
                     </label>
                     <a href="" data-toggle="modal" data-target="#posR">
@@ -99,7 +108,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="positionIT">
+                        <input type="checkbox" ng-model="ngPositionIT">
                         Under-Secretary General of Information Technologies
                     </label>
                     <a href="" data-toggle="modal" data-target="#posIT">
@@ -123,11 +132,11 @@
                     <th class="col-md-1">Add/Remove</th>
                 </tr>
                 <tr>
-                    <td><input type="text" class="form-control" id="enterSYear" ng-model="enterSYear" max-legnt="4" placeholder="Year" required></td>
+                    <td><input type="number" class="form-control" id="enterSYear" ng-model="ngEnterSYear" max-length="4" placeholder="Year" required></td>
                     <td>
-                        <input type="text" class="form-control" id="enterSExperience" ng-model="enterSExperience" placeholder="Enter your staff experience here" required></td>
+                        <input type="text" class="form-control" id="enterSExperience" ng-model="ngEnterSExperience" placeholder="Enter your staff experience here" required></td>
                     <td>
-                        <button class="btn btn-primary col-md-12" ng-disabled="formStaff.$invalid" ng-click="addExperience(enterSYear, enterSExperience, 'staff')">Add</button>
+                        <button class="btn btn-primary col-md-12" ng-disabled="formStaff.$invalid" ng-click="addExperience(ngEnterSYear, ngEnterSExperience, 'staff')">Add</button>
                     </td>
                 </tr>
                 <tr ng-repeat="element in staffObject">
@@ -152,11 +161,11 @@
                     <th class="col-md-1">Add/Remove</th>
                 </tr>
                 <tr>
-                    <td><input type="text" class="form-control" id="enterYear" ng-model="enterYear" max-legnt="4" placeholder="Year" required></td>
+                    <td><input type="number" class="form-control" id="enterYear" ng-model="ngEnterYear" max-length="4" placeholder="Year" required></td>
                     <td>
-                        <input type="text" class="form-control" id="enterExperience" ng-model="enterExperience" placeholder="Enter your experience here" required></td>
+                        <input type="text" class="form-control" id="enterExperience" ng-model="ngEnterExperience" placeholder="Enter your experience here" required></td>
                     <td>
-                        <button class="btn btn-primary col-md-12" ng-disabled="formExperience.$invalid" ng-click="addExperience(enterYear, enterExperience, 'experience')">Add</button>
+                        <button class="btn btn-primary col-md-12" ng-disabled="formExperience.$invalid" ng-click="addExperience(ngEnterYear, ngEnterExperience, 'experience')">Add</button>
                     </td>
                 </tr>
                 <tr ng-repeat="element in experienceObject">
@@ -171,29 +180,36 @@
     </div>
 </form>
 
-<form name="formInformation" role="form" novalidate>
+<form name="formEnter" role="form" novalidate>
     <div class="col-md-6 center-block">
         <div class="form-group">
             <label for="enterAdditional">Any other experience and/or skills you possess that would contribute to your prospective positions(s)?</label>
             <textarea class="form-control" rows="5" id="enterAdditional"></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="enterWhy">Why do you want to work for WASMUN?</label>
-            <textarea class="form-control" rows="5" id="enterWhy"></textarea>
+        <div class="form-group" ng-class="{'has-error': formEnter.enterWhy.$invalid && formEnter.enterWhy.$touched, 'has-success': formEnter.enterWhy.$valid && formEnter.enterWhy.$touched}">
+            <label for="enterWhy">*Why do you want to work for WASMUN?</label>
+            <div class="error-message" ng-show="formEnter.enterWhy.$invalid && formEnter.enterWhy.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain why you would like to work for WASMUN.
+            </div>
+            <textarea class="form-control" rows="5" id="enterWhy" name="enterWhy" ng-model="ngEnterWhy" required></textarea>
         </div>
 
         <div class="form-group">
-            <label for="enterHours">How many hours a week are you available?</label> {{hoursWeek}}
-            <input id="enterHours" ng-model="hoursWeek" type="range" name="points" min="0" max="168">
+            <label for="enterHours">*How many hours a week are you available?</label> {{ngHoursWeek}}
+            <input id="enterHours" name=enterHours" ng-model="ngHoursWeek" type="range" min="0" max="168" required>
         </div>
 
         <div class="checkbox">
-            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable">I am available until late April, possible early May.</label>
+            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable" required>I am available until late April, possible early May.</label>
         </div>
 
-        <div class="text-center">
-            <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" data-target="#formSubmit">Submit Application</button>
-        </div>
+
     </div>
 </form>
+
+<div class="col-md-6 center-block">
+    <div class="text-center">
+        <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" ng-click="submitForm()" ng-disabled="formInfo.$invalid || formEnter.$invalid || ngHoursWeek <= 1 || !checkPositions()">Submit Application</button>
+    </div>
+</div>

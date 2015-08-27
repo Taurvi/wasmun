@@ -41,33 +41,43 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
         return active;
     };
 
+    $scope.contactMethods = [
+        {name: 'Select your preferred method of communication', value: null},
+        {name: 'Text Message', value: 'sms'},
+        {name: 'Phone Call', value: 'call'},
+        {name: 'Email', value: 'email'},
+        {name: 'Facebook', value: 'fb'},
+    ]
+
+    $scope.ngFormContact = null;
+
     $scope.experienceObject = {};
     $scope.staffObject = {};
 
     $scope.addExperience = function(year, experience, type) {
-        var id = Math.floor(Math.random()*(1000 - 0 + 1 ) + 0);
+        var id = 0;
         if(type == "experience") {
             while ($scope.experienceObject.hasOwnProperty(id))
-                id = Math.floor(Math.random() * (1000 - 0 + 1)+ 0);
+                id++;
 
             $scope.experienceObject[id] = {
                 'id' : id,
                 'year' : year,
                 'experience' : experience
             };
-            $scope.enterYear = "";
-            $scope.enterExperience = "";
+            $scope.ngEnterYear = "";
+            $scope.ngEnterExperience = "";
         } else {
             while ($scope.staffObject.hasOwnProperty(id))
-                id = Math.floor(Math.random() * (1000 - 0 + 1) + 0);
+                id++;
 
             $scope.staffObject[id] = {
                 'id' : id,
                 'year' : year,
                 'experience' : experience
             };
-            $scope.enterSYear = "";
-            $scope.enterSExperience = "";
+            $scope.ngEnterSYear = "";
+            $scope.ngEnterSExperience = "";
         }
 
     };
@@ -81,19 +91,12 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
         });
     };
 
+    $scope.checkPositions = function() {
+        return ($scope.ngPositionDG || $scope.ngPositionADG || $scope.ngPositionPR || $scope.ngPositionF || $scope.ngPositionR || $scope.ngPositionIT)
+    }
     $scope.submitForm = function() {
         alert("This form doesn't feel like doing anything!");
     }
 
-    //Still in progress
-    $scope.verify = function(type) {
-        message = {};
-        switch(type) {
-            case 'email':
-                    console.log($scope.formEmail.$invalid);
-                break;
-            default:
-                debugMsg("VERIFY FUNCTION HAS FAILED!")
-        }
-    }
+
 }]);

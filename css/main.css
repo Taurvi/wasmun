@@ -18,3 +18,9 @@ li {
 .table > tbody > tr > td {
     vertical-align: middle;
 }
+
+.error-message {
+    padding-top: 10px;
+    color: #a94442;
+    font-weight: bold;
+}
