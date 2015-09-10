@@ -24,3 +24,7 @@ li {
     color: #a94442;
     font-weight: bold;
 }
+
+.modal-body {
+    line-height: 200%;
+}
