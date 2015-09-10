@@ -20,7 +20,7 @@ var io = require('socket.io')(http);
 serverMsg(' Loaded socket.io.')
 var mysql      = require('mysql');
 serverMsg(' Loaded mySql.');
-var connection = mysql.createConnection({
+/*var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'username',
     password : 'pass',
@@ -28,7 +28,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-serverMsg(' Loaded mySql connection.');
+serverMsg(' Loaded mySql connection.');*/
 
 serverMsg('node.js is initialized.');
 
