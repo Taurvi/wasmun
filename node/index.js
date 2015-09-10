@@ -16,6 +16,8 @@ var app = require('express')();
 serverMsg(' Loaded express.');
 var http = require('http').Server(app);
 serverMsg(' Loaded http.');
+var io = require('socket.io')(http);
+serverMsg(' Loaded socket.io.')
 var mysql      = require('mysql');
 serverMsg(' Loaded mySql.');
 var connection = mysql.createConnection({
@@ -33,3 +35,8 @@ serverMsg('node.js is initialized.');
 http.listen(3000, function(){
     serverMsg('Server is now listening on *:3000');
 });
+
+io.on('formData', function(msg){
+    serverMsg('Form Data Received: ' + msg );
+});
+

@@ -94,9 +94,9 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
     $scope.checkPositions = function() {
         return ($scope.ngPositionDG || $scope.ngPositionADG || $scope.ngPositionPR || $scope.ngPositionF || $scope.ngPositionR || $scope.ngPositionIT)
     }
+
     $scope.submitForm = function() {
-        alert("This form doesn't feel like doing anything!");
+        var socket = io();
+        scoket.emit('formData', 'This form does not feel like doing anything!')
     }
-
-
 }]);
