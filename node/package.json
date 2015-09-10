@@ -1,0 +1,10 @@
+{
+  "name": "wasmun-sec-app",
+  "version": "1.0.0",
+  "description": "WASMUN Secretariat Application 2016 - Stephen (Taurvi) Rimbakusumo (srimbakusumo@gmail.com)",
+  "dependencies": {
+    "express": "~4.13.3",
+    "socket.io": "~1.3.6",
+    "mysql": "~2.9.0"
+  }
+}
