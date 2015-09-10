@@ -96,7 +96,7 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
     }
 
     $scope.submitForm = function() {
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('http://node.wasmun.org:3000');
         socket.on('connect', function() {
             scoket.emit('formData', 'This form does not feel like doing anything!')
         });
