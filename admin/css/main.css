@@ -1,0 +1,16 @@
+/*
+ * Fixes problem with Bootstrap not centering
+ */
+.center-block {
+    float: none;
+    margin: 0 auto;
+}
+
+
+img, .center-block {
+    padding: 10px;
+}
+
+.alert {
+    margin-bottom: 0px;
+}

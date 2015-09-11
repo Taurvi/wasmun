@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="col-sm-3">
+        <form name="filterOptions">
+            <div class="form-group">
+                <label for="filterID">Filter by ID:</label><br>
+                <input type="text" name="filterID" id="filterID" placeholder="Search name">
+            </div>
+
+            <div class="form-group">
+                <label for="filterName">Filter by Name:</label>
+                <input type="text" name="filterName" id="filterName" placeholder="Search name">
+            </div>
+
+            <div class="form-group">
+                <label>Filter by Role: </label>
+                <div ng-repeat="role in selectedRoles">
+                    <input
+                        type = "checkbox"
+                        name = "{{role.short}}"
+                        value = "{{role.short}}"
+                        > {{role.name}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Filter by Status: </label>
+                <div ng-repeat="status in selectedStatus">
+                    <input
+                            type = "checkbox"
+                            name = "{{status.short}}"
+                            value = "{{status.short}}"
+                            > {{status.name}}
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-sm-3">
+        <div class="alert" role="alert">
+            #fd923jf | Stephen Rimbakusumo
+        </div>
+        <div class="alert" role="alert">
+            #fd923jf | Stephen Rimbakusumo
+        </div>
+    </div>
+    <div class="col-sm-6">
+        Application Information:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Application ID#</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Application Status</th>
+                <td></td>
+            </tr>
+        </table>
+
+        General Information:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Name</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Best Method of Contact</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Positions Requested</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Hours/Week Available</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Available in April/May</th>
+                <td></td>
+            </tr>
+        </table>
+        Experience:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Staffing Experience</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>MUN Experience</th>
+                <td></td>
+            </tr>
+        </table>
+
+        Short Answer Responses:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Why WASMUN?</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Other Experiences</th>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
