@@ -28,3 +28,11 @@ li {
 .modal-body {
     line-height: 200%;
 }
+
+#submitFail {
+    display: none;
+}
+
+#submitSuccess {
+    display: none;
+}

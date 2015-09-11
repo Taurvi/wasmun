@@ -2,6 +2,9 @@ debugVars = {};
 
 debugMode = true;
 
+// Initialize Parse
+Parse.initialize('wNpu76vwiBw69drSnb6bvfYnNeYCHxqPugSQfZvx', '3ibIg8GnmKrxkPCrmnm53SLjtED2qkfOEe5U8k0k');
+
 var debugMsg = function(msg) {
     if (debugMode)
         console.log('<<<DEBUG>>> ' + msg);
@@ -107,26 +110,27 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
         dataPackage.phone = $scope.ngFormPhone;
         dataPackage.bestContact = $scope.ngFormContact;
         dataPackage.occupation = $scope.ngFormJob;
-        dataPackage.posDG = $scope.verifyPositions($scope.ngPositionDG);
-        dataPackage.posADG = $scope.verifyPositions($scope.ngPositionADG);
-        dataPackage.posPR = $scope.verifyPositions($scope.ngPositionPR);
-        dataPackage.posF = $scope.verifyPositions($scope.ngPositionF);
-        dataPackage.posL = $scope.verifyPositions($scope.ngPositionL);
+        dataPackage.posDG = $scope.verifyBoolean($scope.ngPositionDG);
+        dataPackage.posADG = $scope.verifyBoolean($scope.ngPositionADG);
+        dataPackage.posPR = $scope.verifyBoolean($scope.ngPositionPR);
+        dataPackage.posF = $scope.verifyBoolean($scope.ngPositionF);
+        dataPackage.posL = $scope.verifyBoolean($scope.ngPositionL);
         dataPackage.experienceStaff = JSON.stringify($scope.staffObject);
         dataPackage.experienceGeneral = JSON.stringify($scope.experienceObject);
         dataPackage.experienceOther = $scope.ngExperienceOther;
         dataPackage.why = $scope.ngEnterWhy;
-        dataPackage.house = $scope.ngHoursWeek;
-        dataPackage.available = $scope.ngAvailable;
+        dataPackage.hours = $scope.ngHoursWeek;
+        dataPackage.available = $scope.verifyBoolean($scope.ngAvailable);
         dataPackage.status = "review";
         /*var socket = io.connect('http://node.wasmun.org');
         socket.on('connect', function() {
             scoket.emit('formData', 'This form does not feel like doing anything!')
         });*/
+        $location.path("/submit");
     }
 
-    $scope.verifyPositions = function(position) {
-        if(!position)
+    $scope.verifyBoolean = function(boo) {
+        if(!boo)
             return false
         else
             return true;
@@ -134,5 +138,39 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
 }]);
 
 ngApp.controller('CtrlSubmit', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+    debugMsg('registerToDatabase() called.')
+    var SApplications = Parse.Object.extend('SApplications');
+    debugMsg('Extended Parse table: SApplications');
+    var newSecApp = new SApplications();
+    debugMsg('Created new secretariat app.');
+
+    newSecApp.set('name', dataPackage.name);
+    newSecApp.set('email', dataPackage.email);
+    newSecApp.set('phone', dataPackage.phone);
+    newSecApp.set('bestContact', dataPackage.bestContact);
+    newSecApp.set('occupation', dataPackage.occupation);
+    newSecApp.set('posDG', dataPackage.posDG);
+    newSecApp.set('posADG', dataPackage.posADG);
+    newSecApp.set('posPR', dataPackage.posPR);
+    newSecApp.set('posF', dataPackage.posF);
+    newSecApp.set('posL', dataPackage.posL);
+    newSecApp.set('experienceStaff', dataPackage.experienceStaff);
+    newSecApp.set('experienceGeneral', dataPackage.experienceGeneral);
+    newSecApp.set('experienceOther', dataPackage.experienceOther);
+    newSecApp.set('why', dataPackage.why);
+    newSecApp.set('hours', dataPackage.hours);
+    newSecApp.set('available', dataPackage.available);
+    newSecApp.set('status', dataPackage.status);
+
+    newSecApp.save().then(function(newSecApp) {
+        debugMsg('Form successfully submitted.')
+        //$('#register-id').text(newParticipant.id);
+        $('#submitPending').css('display', 'none');
+        $('#submitSuccess').css('display', 'initial');
+    }, function() {
+        debugMsg('Form failed.')
+        $('#submitPending').css('display', 'none');
+        $('#submitFail').css('display', 'initial');
+    })
 
 }]);
