@@ -40,7 +40,7 @@
         <div class="form-group" ng-class="{'has-error': formInfo.formPhone.$invalid && formInfo.formPhone.$touched, 'has-success': formInfo.formPhone.$valid && formInfo.formPhone.$touched}">
             <label class="control-label col-md-2" for="formPhone">*Phone Number:</label>
             <div class="col-md-10">
-                <input type="text" class="form-control" id="formPhone" name="formPhone" ng-minlength="10" ng-model="ngFormPhone" placeholder="123-456-7890" required>
+                <input type="text" class="form-control" id="formPhone" name="formPhone" ng-minlength="10" ng-model="ngFormPhone" ng-model-options="{updateOn: 'mousedown blur'}" placeholder="123-456-7890" required>
                 <div class="error-message" ng-show="formInfo.formPhone.$invalid && formInfo.formPhone.$touched">
                     <i class="fa fa-exclamation-triangle"></i> Please enter a valid phone number.
                 </div>
