@@ -13,7 +13,7 @@ var debugMsg = function(msg) {
 var dataPackage = {};
 
 //  Create Angular App
-var ngApp = angular.module('ngApp', ['ngRoute']);
+var ngApp = angular.module('ngApp', ['ngRoute', 'ngCrossfilter']);
 
 ngApp.config(function($routeProvider) {
     $routeProvider
@@ -23,7 +23,8 @@ ngApp.config(function($routeProvider) {
         })
 });
 
-ngApp.controller('CtrlDisplay', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function($scope, $location, Crossfilter) {
+    // Enables a dynamic checkbox list for the various roles.
     $scope.selectedRoles = [
         {
             'name': 'Director General',
@@ -47,6 +48,7 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', '$timeout', function($sc
         }
     ];
 
+    // Enables a dynamic checkbox list for the various status conditions.
     $scope.selectedStatus = [
         {
             'name': 'Pending Review',
@@ -68,7 +70,31 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', '$timeout', function($sc
             'name': 'Rejected',
             'short': 'rejected'
         }
-    ]
+    ];
+
+    // Gets the data from the database
+    $scope.readDatabase = function() {
+        var SApplications = Parse.Object.extend('SApplications');
+
+        var queryApplications = new Parse.Query(SApplications);
+
+        var tempArray = [];
+
+        queryApplications.find({
+            success: function (results) {
+                $scope.applicantList = [];
+                results.map(function(applicant) {
+                    tempArray.push(applicant.attributes);
+                })
+                $scope.$apply(function() {
+                    debugMsg('apply was run!');
+                    $scope.applicantList = tempArray;
+                })
+            }
+        })
+    }
+
+
 
 }]);
 
