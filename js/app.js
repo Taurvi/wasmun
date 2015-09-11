@@ -7,6 +7,8 @@ var debugMsg = function(msg) {
         console.log('<<<DEBUG>>> ' + msg);
 }
 
+var dataPackage = {};
+
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
@@ -30,6 +32,10 @@ ngApp.config(function($routeProvider) {
         .when('/', {
             templateUrl: 'templates/main.html',
             controller: 'CtrlApply'
+        })
+        .when('/submit', {
+            templateUrl: 'templates/submit.html',
+            controller: 'CtrlSubmit'
         })
 });
 
@@ -92,13 +98,41 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
     };
 
     $scope.checkPositions = function() {
-        return ($scope.ngPositionDG || $scope.ngPositionADG || $scope.ngPositionPR || $scope.ngPositionF || $scope.ngPositionR || $scope.ngPositionIT)
+        return ($scope.ngPositionDG || $scope.ngPositionADG || $scope.ngPositionPR || $scope.ngPositionF || $scope.ngPositionL)
     }
 
     $scope.submitForm = function() {
-        var socket = io.connect('http://node.wasmun.org');
+        dataPackage.name = $scope.ngFormName;
+        dataPackage.email = $scope.ngFormEmail;
+        dataPackage.phone = $scope.ngFormPhone;
+        dataPackage.bestContact = $scope.ngFormContact;
+        dataPackage.occupation = $scope.ngFormJob;
+        dataPackage.posDG = $scope.verifyPositions($scope.ngPositionDG);
+        dataPackage.posADG = $scope.verifyPositions($scope.ngPositionADG);
+        dataPackage.posPR = $scope.verifyPositions($scope.ngPositionPR);
+        dataPackage.posF = $scope.verifyPositions($scope.ngPositionF);
+        dataPackage.posL = $scope.verifyPositions($scope.ngPositionL);
+        dataPackage.experienceStaff = JSON.stringify($scope.staffObject);
+        dataPackage.experienceGeneral = JSON.stringify($scope.experienceObject);
+        dataPackage.experienceOther = $scope.ngExperienceOther;
+        dataPackage.why = $scope.ngEnterWhy;
+        dataPackage.house = $scope.ngHoursWeek;
+        dataPackage.available = $scope.ngAvailable;
+        dataPackage.status = "review";
+        /*var socket = io.connect('http://node.wasmun.org');
         socket.on('connect', function() {
             scoket.emit('formData', 'This form does not feel like doing anything!')
-        });
+        });*/
     }
+
+    $scope.verifyPositions = function(position) {
+        if(!position)
+            return false
+        else
+            return true;
+    }
+}]);
+
+ngApp.controller('CtrlSubmit', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+
 }]);
