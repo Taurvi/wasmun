@@ -1,6 +1,6 @@
 debugVars = {};
 
-debugMode = true;
+debugMode = false;
 
 // Initialize Parse
 Parse.initialize('wNpu76vwiBw69drSnb6bvfYnNeYCHxqPugSQfZvx', '3ibIg8GnmKrxkPCrmnm53SLjtED2qkfOEe5U8k0k');
@@ -164,7 +164,7 @@ ngApp.controller('CtrlSubmit', ['$scope', '$location', '$timeout', function($sco
 
     newSecApp.save().then(function(newSecApp) {
         debugMsg('Form successfully submitted.')
-        //$('#register-id').text(newParticipant.id);
+        $('#register-id').text(newSecApp.id);
         $('#submitPending').css('display', 'none');
         $('#submitSuccess').css('display', 'initial');
     }, function() {
