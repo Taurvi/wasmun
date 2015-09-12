@@ -1,6 +1,6 @@
 debugVars = {};
 
-debugMode = false;
+debugMode = true;
 
 // Initialize Parse
 Parse.initialize('wNpu76vwiBw69drSnb6bvfYnNeYCHxqPugSQfZvx', '3ibIg8GnmKrxkPCrmnm53SLjtED2qkfOEe5U8k0k');
@@ -24,27 +24,29 @@ ngApp.config(function($routeProvider) {
 });
 
 ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function($scope, $location, Crossfilter) {
+    $scope.$ngc;
+
     // Enables a dynamic checkbox list for the various roles.
     $scope.selectedRoles = [
         {
             'name': 'Director General',
-            'short': 'dg'
+            'short': 'posDG'
         },
         {
             'name': 'Assistant Director General',
-            'short': 'adg'
+            'short': 'posADG'
         },
         {
             'name': 'USG of Public Relations',
-            'short': 'pr'
+            'short': 'posPR'
         },
         {
             'name': 'USG of Finances',
-            'short': 'f'
+            'short': 'posF'
         },
         {
             'name': 'USG of Logistics',
-            'short': 'l'
+            'short': 'posL'
         }
     ];
 
@@ -72,6 +74,22 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
         }
     ];
 
+    $scope.shortPos = ['posDG', 'posADG', 'posPR', 'posF', 'posL'];
+    $scope.shortPosSelection =  ['posDG', 'posADG', 'posPR', 'posF', 'posL'];
+
+    $scope.toggleSelection = function($ngc, posName) {
+        var idx = $scope.shortPosSelection.indexOf(posName);
+        // is currently selected
+        if (idx > -1) {
+            $scope.shortPosSelection.splice(idx, 1);
+        }
+        // is newly selected
+        else {
+            $scope.shortPosSelection.push(rankName);
+        }
+        $scope.$ngc.filterBy('summonerTier', $scope.shortPosSelection, $ngc.filters.inArray('some'));
+    };
+
     // Gets the data from the database
     $scope.readDatabase = function() {
         var SApplications = Parse.Object.extend('SApplications');
@@ -88,12 +106,66 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
                 })
                 $scope.$apply(function() {
                     debugMsg('apply was run!');
+                    // Sets the $scope.applicantLIst equal to the tempArray with the data
                     $scope.applicantList = tempArray;
+
+                    $scope.$ngc = new Crossfilter($scope.applicantList, ['name'])
+                    $scope.$ngc.addDimension(['posDG']);
+                    $scope.$ngc.addDimension(['posADG']);
+                    $scope.$ngc.addDimension(['posL']);
+                    $scope.$ngc.addDimension(['posF']);
+                    $scope.$ngc.addDimension(['posPR']);
+
+
+                    // Iterates through each applicant for more specific items
+                    $scope.applicantList.map(function(applicant) {
+                        applicant.id = $scope.applicantList.indexOf(applicant);
+                        var tempPosition = [];
+                        if(applicant.posDG)
+                            tempPosition.push('Director General');
+                        if(applicant.posADG)
+                            tempPosition.push('Assistant Director General');
+                        if(applicant.posPR)
+                            tempPosition.push('USG of Public Relations');
+                        if(applicant.posF)
+                            tempPosition.push('USG of Finance');
+                        if(applicant.posL)
+                            tempPosition.push('USG of Logistics');
+
+                        var tempExpStaff = JSON.parse(applicant.experienceStaff);
+                        applicant.experienceStaff = tempExpStaff;
+                        debugVars.experienceStaff = applicant.experienceStaff;
+
+                        var tempExpGen = JSON.parse(applicant.experienceGeneral);
+                        applicant.experienceGeneral = tempExpGen;
+
+                        applicant.positions = tempPosition;
+                    })
+                    debugVars.applicantList = $scope.applicantList;
                 })
             }
         })
     }
 
+    $scope.posFilter = function($ngc, position, filter) {
+        if (filter)
+            $ngc.filterBy(position, filter);
+        else
+            $ngc.unfilterBy(position)
+    }
+
+    $scope.selectedApplicant = null;
+
+    $scope.selectOption = function(id) {
+        $scope.applicantList.map(function(applicant) {
+            if (applicant.id == id) {
+                $('#' + id).addClass('alert-success');
+                $scope.selectedApplicant = $scope.applicantList[id];
+            }
+            else
+                $('#' + applicant.id).removeClass('alert-success');
+        })
+    }
 
 
 }]);
