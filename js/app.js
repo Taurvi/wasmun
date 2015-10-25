@@ -8,7 +8,7 @@ Parse.initialize('wNpu76vwiBw69drSnb6bvfYnNeYCHxqPugSQfZvx', '3ibIg8GnmKrxkPCrmn
 var debugMsg = function(msg) {
     if (debugMode)
         console.log('<<<DEBUG>>> ' + msg);
-}
+};
 
 var dataPackage = {};
 
@@ -47,21 +47,21 @@ ngApp.config(function($routeProvider) {
 });
 
 
-ngApp.controller('CtrlDirector', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+ngApp.controller('CtrlDirector', ['$scope', '$location', function($scope, $location) {
     $scope.contactMethods = [
         {name: 'Select your preferred method of communication', value: null},
         {name: 'Text Message', value: 'sms'},
         {name: 'Phone Call', value: 'call'},
         {name: 'Email', value: 'email'},
-        {name: 'Facebook', value: 'fb'},
-    ]
+        {name: 'Facebook', value: 'fb'}
+    ];
 
     $scope.verifyBoolean = function(boo) {
         if(!boo)
-            return false
+            return false;
         else
             return true;
-    }
+    };
 
 
     $scope.checkPositions = function() {
@@ -97,7 +97,7 @@ ngApp.controller('CtrlDirector', ['$scope', '$location', '$timeout', function($s
 }]);
 
 ngApp.controller('CtrlSubmit2', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-    debugMsg('registerToDatabase() called.')
+    debugMsg('registerToDatabase() called.');
     var DApplications = Parse.Object.extend('DApplications');
     debugMsg('Extended Parse table: DApplications');
     var newDirApp = new DApplications();
@@ -125,12 +125,12 @@ ngApp.controller('CtrlSubmit2', ['$scope', '$location', '$timeout', function($sc
     newDirApp.set('status', dataPackage.status);
 
     newDirApp.save().then(function(newDirApp) {
-        debugMsg('Form successfully submitted.')
+        debugMsg('Form successfully submitted.');
         $('#register-id').text(newDirApp.id);
         $('#submitPending').css('display', 'none');
         $('#submitSuccess').css('display', 'initial');
     }, function() {
-        debugMsg('Form failed.')
+        debugMsg('Form failed.');
         $('#submitPending').css('display', 'none');
         $('#submitFail').css('display', 'initial');
     })
@@ -151,8 +151,8 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
         {name: 'Text Message', value: 'sms'},
         {name: 'Phone Call', value: 'call'},
         {name: 'Email', value: 'email'},
-        {name: 'Facebook', value: 'fb'},
-    ]
+        {name: 'Facebook', value: 'fb'}
+    ];
 
     $scope.ngFormContact = null;
 
@@ -198,7 +198,7 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
 
     $scope.checkPositions = function() {
         return ($scope.ngPositionDG || $scope.ngPositionADG || $scope.ngPositionPR || $scope.ngPositionF || $scope.ngPositionL)
-    }
+    };
 
     $scope.submitForm = function() {
         dataPackage.name = $scope.ngFormName;
@@ -223,18 +223,18 @@ ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scop
             scoket.emit('formData', 'This form does not feel like doing anything!')
         });*/
         $location.path("/submit");
-    }
+    };
 
     $scope.verifyBoolean = function(boo) {
         if(!boo)
-            return false
+            return false;
         else
             return true;
     }
 }]);
 
 ngApp.controller('CtrlSubmit', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-    debugMsg('registerToDatabase() called.')
+    debugMsg('registerToDatabase() called.');
     var SApplications = Parse.Object.extend('SApplications');
     debugMsg('Extended Parse table: SApplications');
     var newSecApp = new SApplications();
@@ -259,12 +259,12 @@ ngApp.controller('CtrlSubmit', ['$scope', '$location', '$timeout', function($sco
     newSecApp.set('status', dataPackage.status);
 
     newSecApp.save().then(function(newSecApp) {
-        debugMsg('Form successfully submitted.')
+        debugMsg('Form successfully submitted.');
         $('#register-id').text(newSecApp.id);
         $('#submitPending').css('display', 'none');
         $('#submitSuccess').css('display', 'initial');
     }, function() {
-        debugMsg('Form failed.')
+        debugMsg('Form failed.');
         $('#submitPending').css('display', 'none');
         $('#submitFail').css('display', 'initial');
     })
