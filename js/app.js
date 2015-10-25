@@ -32,15 +32,111 @@ var ngApp = angular.module('ngApp', ['ngRoute']);
 
 ngApp.config(function($routeProvider) {
     $routeProvider
+        //.when('/', {
+        //    templateUrl: 'templates/main.html',
+        //    controller: 'CtrlApply'
+        //})
         .when('/', {
-            templateUrl: 'templates/main.html',
-            controller: 'CtrlApply'
+            templateUrl: 'templates/director.html',
+            controller: 'CtrlDirector'
         })
         .when('/submit', {
             templateUrl: 'templates/submit.html',
-            controller: 'CtrlSubmit'
+            controller: 'CtrlSubmit2'
         })
 });
+
+
+ngApp.controller('CtrlDirector', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+    $scope.contactMethods = [
+        {name: 'Select your preferred method of communication', value: null},
+        {name: 'Text Message', value: 'sms'},
+        {name: 'Phone Call', value: 'call'},
+        {name: 'Email', value: 'email'},
+        {name: 'Facebook', value: 'fb'},
+    ]
+
+    $scope.verifyBoolean = function(boo) {
+        if(!boo)
+            return false
+        else
+            return true;
+    }
+
+
+    $scope.checkPositions = function() {
+        return ($scope.ngPositionICJ || $scope.ngPositionGA4 || $scope.ngPositionHRC || $scope.ngPositionUNEP || $scope.ngPositionUNODC || $scope.ngPositionECOSOC || $scope.ngPositionSC)
+    }
+
+    $scope.submitForm = function() {
+        dataPackage.name = $scope.ngFormName;
+        dataPackage.email = $scope.ngFormEmail;
+        dataPackage.phone = $scope.ngFormPhone;
+        dataPackage.bestContact = $scope.ngFormContact;
+        dataPackage.occupation = $scope.ngFormJob;
+
+        dataPackage.posICJ = $scope.verifyBoolean($scope.ngPositionICJ);
+        dataPackage.posGA4 = $scope.verifyBoolean($scope.ngPositionGA4);
+        dataPackage.posHRC = $scope.verifyBoolean($scope.ngPositionHRC);
+        dataPackage.posUNEP = $scope.verifyBoolean($scope.ngPositionUNEP);
+        dataPackage.posUNODC = $scope.verifyBoolean($scope.ngPositionUNODC);
+        dataPackage.posECOSOC = $scope.verifyBoolean($scope.ngPositionECOSOC);
+        dataPackage.posSC = $scope.verifyBoolean($scope.ngPositionSC);
+
+        dataPackage.why = $scope.ngEnterWhy;
+        dataPackage.enterPast = $scope.ngEnterPast;
+        dataPackage.enterTopics = $scope.ngeEnterTopics;
+        dataPackage.enterCollab = $scope.ngEnterCollab;
+        dataPackage.status = "review";
+        /*var socket = io.connect('http://node.wasmun.org');
+         socket.on('connect', function() {
+         scoket.emit('formData', 'This form does not feel like doing anything!')
+         });*/
+        $location.path("/submit");
+    }
+}]);
+
+ngApp.controller('CtrlSubmit2', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+    debugMsg('registerToDatabase() called.')
+    var DApplications = Parse.Object.extend('DApplications');
+    debugMsg('Extended Parse table: DApplications');
+    var newDirApp = new DApplications();
+    debugMsg('Created new director app.');
+
+    newDirApp.set('name', dataPackage.name);
+    newDirApp.set('email', dataPackage.email);
+    newDirApp.set('phone', dataPackage.phone);
+    newDirApp.set('bestContact', dataPackage.bestContact);
+    newDirApp.set('occupation', dataPackage.occupation);
+
+    newDirApp.set('posICJ', dataPackage.posICJ);
+    newDirApp.set('posGA4', dataPackage.posGA4);
+    newDirApp.set('posHRC', dataPackage.posHRC);
+    newDirApp.set('posUNEP', dataPackage.posUNEP);
+    newDirApp.set('posUNODC', dataPackage.posUNODC);
+    newDirApp.set('posECOSOC', dataPackage.posECOSOC);
+    newDirApp.set('posSC', dataPackage.posSC);
+
+
+    newDirApp.set('why', dataPackage.why);
+    newDirApp.set('enterPast', dataPackage.enterPast);
+    newDirApp.set('enterTopics', dataPackage.enterTopics);
+    newDirApp.set('enterCollab', dataPackage.enterCollab);
+    newDirApp.set('status', dataPackage.status);
+
+    newDirApp.save().then(function(newDirApp) {
+        debugMsg('Form successfully submitted.')
+        $('#register-id').text(newDirApp.id);
+        $('#submitPending').css('display', 'none');
+        $('#submitSuccess').css('display', 'initial');
+    }, function() {
+        debugMsg('Form failed.')
+        $('#submitPending').css('display', 'none');
+        $('#submitFail').css('display', 'initial');
+    })
+
+}]);
+
 
 ngApp.controller('CtrlApply', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
     $scope.data={};

@@ -1,0 +1,160 @@
+<div class="row">
+    <h1 class="col-md-6 center-block">WASMUN Director Application</h1>
+</div>
+
+<form class="form-horizontal" role="form" name="formInfo" novalidate>
+    <div class="col-md-6 center-block">
+        <div class="form-group" ng-class="{'has-error': formInfo.formName.$invalid && formInfo.formName.$touched, 'has-success': formInfo.formName.$valid && formInfo.formName.$touched}">
+            <label class="control-label col-md-2" for="formName">*Name:</label>
+            <div class="col-md-10">
+                <input type="input" class="form-control" id="formName" name="formName" ng-model="ngFormName" placeholder="First and Last" required>
+                    <div class="error-message" ng-show="formInfo.formName.$invalid && formInfo.formName.$touched">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a valid name.
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formInfo.formEmail.$invalid && formInfo.formEmail.$touched, 'has-success': formInfo.formEmail.$valid && formInfo.formEmail.$touched}">
+            <label class="control-label col-md-2" for="formEmail">*Email:</label>
+            <div class="col-md-10">
+                <input type="email" class="form-control has-error" id="formEmail" name="formEmail" ng-model="ngFormEmail" ng-model-options="{updateOn: 'mousedown blur'}" placeholder="example@foobar.com" required>
+                <div class="error-message" ng-show="formInfo.formEmail.$invalid && formInfo.formEmail.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter a valid email address.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formInfo.formPhone.$invalid && formInfo.formPhone.$touched, 'has-success': formInfo.formPhone.$valid && formInfo.formPhone.$touched}">
+            <label class="control-label col-md-2" for="formPhone">*Phone Number:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="formPhone" name="formPhone" ng-minlength="10" ng-model="ngFormPhone" ng-model-options="{updateOn: 'mousedown blur'}" placeholder="123-456-7890" required>
+                <div class="error-message" ng-show="formInfo.formPhone.$invalid && formInfo.formPhone.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter a valid phone number.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': ngFormContact == null && formInfo.formContact.$touched, 'has-success': ngFormContact != null && formInfo.formContact.$touched}">
+            <label class="control-label col-md-2" for="formContact">*Contact me by:</label>
+            <div class="col-md-10">
+                <select class="form-control" id="formContact" name="formContact" ng-model="ngFormContact" ng-options="methods.value as methods.name for methods in contactMethods" required>
+                </select>
+                <div class="error-message" ng-show="ngFormContact == null && formInfo.formContact.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please select a preferred method of communication.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formInfo.formJob.$invalid && formInfo.formJob.$touched, 'has-success': formInfo.formJob.$valid && formInfo.formJob.$touched}">
+            <label class="control-label col-md-2" for="formJob">*Occupation:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="formJob" name="formJob" ng-model="ngFormJob" placeholder="Current Job/Occupation" required>
+                <div class="error-message" ng-show="formInfo.formJob.$invalid && formInfo.formJob.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter in your current job/occupation.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-success': checkPositions()}">
+            <label class="control-label col-md-2">*Positions:</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionICJ">
+                        International Court of Justice
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionGA4">
+                        General Assembly - Fourth Committee
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionHRC">
+                        Human Rights Council
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionUNEP">
+                        United Nations Environmental Program
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionUNODC">
+                        United Nations Office on Drugs and Crime
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionECOSOC">
+                        United Nations Economic Social Council
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="ngPositionSC">
+                        United Nations Security Council
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<form name="formEnter" role="form" novalidate>
+    <div class="col-md-6 center-block">
+        <div class="form-group" ng-class="{'has-error': formEnter.enterWhy.$invalid && formEnter.enterWhy.$touched, 'has-success': formEnter.enterWhy.$valid && formEnter.enterWhy.$touched}">
+            <label for="enterWhy">*What experience with WASMUN do you have?</label>
+            <div class="error-message" ng-show="formEnter.enterWhy.$invalid && formEnter.enterWhy.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain your prior experience.
+            </div>
+            <textarea class="form-control" rows="5" id="enterWhy" name="enterWhy" ng-model="ngEnterWhy" required></textarea>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formEnter.enterPast.$invalid && formEnter.enterPast.$touched, 'has-success': formEnter.enterPast.$valid && formEnter.enterPast.$touched}">
+            <label for="enterWhy">*What have you learned from past MUN conferences that you can apply to your role in WASMUN?</label>
+            <div class="error-message" ng-show="formEnter.enterPast.$invalid && formEnter.ngEnterPast.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain what you have learned from past MUN conferences.
+            </div>
+            <textarea class="form-control" rows="5" id="enterPast" name="ngEnterPast" ng-model="ngEnterPast" required></textarea>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formEnter.enterTopics.$invalid && formEnter.enterTopics.$touched, 'has-success': formEnter.enterTopics.$valid && formEnter.enterTopics.$touched}">
+            <label for="enterWhy">*Given the committee(s) that you preerred, what topics would you be interested in pursuing for the committeee agenda?</label>
+            <div class="error-message" ng-show="formEnter.enterWhy.$invalid && formEnter.enterWhy.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please enter in the topics you are interested in pursuing..
+            </div>
+            <textarea class="form-control" rows="5" id="enterTopics" name="enterTopics" ng-model="ngEnterTopics" required></textarea>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': formEnter.enterCollab.$invalid && formEnter.enterCollab.$touched, 'has-success': formEnter.enterCollab.$valid && formEnter.enterCollab.$touched}">
+            <label for="enterWhy">*How do you see yourself working with other member of your committee (Director/Assistant Director/Chair)</label>
+            <div class="error-message" ng-show="formEnter.enterCollab.$invalid && formEnter.enterCollab.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain how you see yourself working with other Dais.
+            </div>
+            <textarea class="form-control" rows="5" id="enterCollab" name="enterCollab" ng-model="ngEnterCollab" required></textarea>
+        </div>
+
+        <div class="checkbox">
+            <label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable" ng-model="ngEnterAvailable" required>I am available on March 5 and March 6.</label>
+        </div>
+
+
+    </div>
+</form>
+
+<div class="col-md-6 center-block">
+    <div class="text-center">
+        <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" ng-click="submitForm()" ng-disabled="formInfo.$invalid || formEnter.$invalid || !ngEnterAvailable || !checkPositions()">Submit Application</button>
+        <div class="error-message" ng-show="formInfo.$invalid || formEnter.$invalid || !checkPositions()">
+            <i class="fa fa-exclamation-triangle"></i> Elements of the application form are incomplete still. Please check that you have filled out all the required fields, indicated with asterisks (*).
+        </div>
+    </div>
+</div>
