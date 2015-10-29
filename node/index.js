@@ -18,23 +18,21 @@ var http = require('http').Server(app);
 serverMsg(' Loaded http.');
 var io = require('socket.io')(http);
 serverMsg(' Loaded socket.io.');
-var mysql      = require('mysql');
-serverMsg(' Loaded mySql.');
-/*var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'username',
-    password : 'pass',
-    database : 'database'
-});
+var crypto = require('crypto');
+serverMsg(' Loaded crypto.');
 
-connection.connect();
-serverMsg(' Loaded mySql connection.');*/
 
 serverMsg('node.js is initialized.');
 
 http.listen(3000, function(){
     serverMsg('Server is now listening on *:3000');
 });
+
+var generate_key = function() {
+    var sha = crypto.createHash('sha256');
+    sha.update(Math.random().toString());
+    return sha.digest('hex');
+};
 
 io.sockets.on('connection', function(socket){
     socket.on('formData', function(msg){
