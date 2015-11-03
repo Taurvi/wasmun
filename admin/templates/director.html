@@ -1,0 +1,101 @@
+<div class="row" ng-init="readDatabase()">
+    <div class="col-sm-3">
+        <form name="filterOptions">
+            <div class="form-group">
+                <label for="filterName">Filter by Name:</label>
+                <input type="text" name="filterName" id="filterName" ng-model="ngFilterName" placeholder="Search name" ng-change="$ngc.filterBy('name', ngFilterName, $ngc.filters.fuzzy('i'));">
+            </div>
+
+            <div class="form-group">
+                <label>Filter by Role: </label>
+                <div>
+                    <input type="checkbox" ng-model="ngPosDG" ng-click="posFilter($ngc, 'posDG', ngPosDG)"> Director General
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosADG" ng-click="posFilter($ngc, 'posADG', ngPosADG)"> Assistant Director General
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosPR" ng-click="posFilter($ngc, 'posPR', ngPosPR)"> Public Relations
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosL" ng-click="posFilter($ngc, 'posL', ngPosL)"> USG of Logistics
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosF" ng-click="posFilter($ngc, 'posF', ngPosF)"> USG of Finance
+                </div>
+            </div>
+
+            <!--
+            <div class="form-group">
+                <label>Filter by Status: </label>
+                <div ng-repeat="status in selectedStatus">
+                    <input
+                            type = "checkbox"
+                            name = "{{status.short}}"
+                            value = "{{status.short}}"
+                            > {{status.name}}
+                </div>
+            </div>
+            -->
+
+        </form>
+    </div>
+
+    <div class="col-sm-3">
+        <div role="alert" class="alert" ng-repeat="applicant in $ngc.collection()" id="{{applicant.id}}" ng-click="selectOption(applicant.id)">
+            {{applicant.name}}
+        </div>
+    </div>
+
+    <div class="col-sm-6" ng-hide="!selectedApplicant">
+        <!--Application Information:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Application Status</th>
+                <td>{{selectedApplicant.status}}</td>
+            </tr>
+        </table>-->
+        General Information:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Name</th>
+                <td>{{selectedApplicant.name}}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><a href="mailto:{{selectedApplicant.email}}">{{selectedApplicant.email}}</a></td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{selectedApplicant.phone}}</td>
+            </tr>
+            <tr>
+                <th>Best Method of Contact</th>
+                <td>{{selectedApplicant.bestContact}}</td>
+            </tr>
+            <tr>
+                <th>Positions Requested</th>
+                <td><li ng-repeat="position in selectedApplicant.positions">{{position}}</li></td>
+            </tr>
+        </table>
+        Short Answer Responses:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">What exerpience with WASMUN do you have?</th>
+                <td class="col-sm-8">{{selectedApplicant.why}}</td>
+            </tr>
+            <tr>
+                <th>What have you learned from past MUN conferences that you can apply to your roles in WASMUN?</th>
+                <td>{{selectedApplicant.enterPast}}</td>
+            </tr>
+            <tr>
+                <th>Interested topics:</th>
+                <td>{{selectedApplicant.enterTopics}}</td>
+            </tr>
+            <tr>
+                <th>How do you see yourself working with other members of your committee?</th>
+                <td>{{selectedApplicant.enterCollab}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

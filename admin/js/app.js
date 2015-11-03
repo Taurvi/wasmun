@@ -18,7 +18,7 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngCrossfilter']);
 ngApp.config(function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'templates/main.html',
+            templateUrl: 'templates/director.html',
             controller: 'CtrlDisplay'
         })
 });
@@ -29,24 +29,32 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
     // Enables a dynamic checkbox list for the various roles.
     $scope.selectedRoles = [
         {
-            'name': 'Director General',
-            'short': 'posDG'
+            'name': 'International Court of Justice',
+            'short': 'posICJ'
         },
         {
-            'name': 'Assistant Director General',
-            'short': 'posADG'
+            'name': 'GA - Fourth Committee',
+            'short': 'posGA4'
         },
         {
-            'name': 'USG of Public Relations',
-            'short': 'posPR'
+            'name': 'Human Rights Council',
+            'short': 'posHRC'
         },
         {
-            'name': 'USG of Finances',
-            'short': 'posF'
+            'name': 'UN Environmental Program',
+            'short': 'posUNEP'
         },
         {
-            'name': 'USG of Logistics',
-            'short': 'posL'
+            'name': 'UN Office on Drugs and Crime',
+            'short': 'posUNODC'
+        },
+        {
+            'name': 'UN Economic and Social Council',
+            'short': 'posECOSOC'
+        },
+        {
+            'name': 'UN Security Council',
+            'short': 'posSC'
         }
     ];
 
@@ -74,8 +82,8 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
         }
     ];
 
-    $scope.shortPos = ['posDG', 'posADG', 'posPR', 'posF', 'posL'];
-    $scope.shortPosSelection =  ['posDG', 'posADG', 'posPR', 'posF', 'posL'];
+    $scope.shortPos = ['posICJ', 'posGA4', 'posHRC', 'posUNEP', 'posUNODC', 'posECOSOC', 'posSC'];
+    $scope.shortPosSelection = ['posICJ', 'posGA4', 'posHRC', 'posUNEP', 'posUNODC', 'posECOSOC', 'posSC'];
 
     $scope.toggleSelection = function($ngc, posName) {
         var idx = $scope.shortPosSelection.indexOf(posName);
@@ -85,16 +93,16 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
         }
         // is newly selected
         else {
-            $scope.shortPosSelection.push(rankName);
+            $scope.shortPosSelection.push(posName);
         }
         $scope.$ngc.filterBy('summonerTier', $scope.shortPosSelection, $ngc.filters.inArray('some'));
     };
 
     // Gets the data from the database
     $scope.readDatabase = function() {
-        var SApplications = Parse.Object.extend('SApplications');
+        var DApplications = Parse.Object.extend('DApplications');
 
-        var queryApplications = new Parse.Query(SApplications);
+        var queryApplications = new Parse.Query(DApplications);
 
         var tempArray = [];
 
@@ -110,34 +118,32 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
                     $scope.applicantList = tempArray;
 
                     $scope.$ngc = new Crossfilter($scope.applicantList, ['name'])
-                    $scope.$ngc.addDimension(['posDG']);
-                    $scope.$ngc.addDimension(['posADG']);
-                    $scope.$ngc.addDimension(['posL']);
-                    $scope.$ngc.addDimension(['posF']);
-                    $scope.$ngc.addDimension(['posPR']);
-
+                    $scope.$ngc.addDimension(['posICJ']);
+                    $scope.$ngc.addDimension(['posGA4']);
+                    $scope.$ngc.addDimension(['posHRC']);
+                    $scope.$ngc.addDimension(['posUNEP']);
+                    $scope.$ngc.addDimension(['posUNODC']);
+                    $scope.$ngc.addDimension(['posECOSOC']);
+                    $scope.$ngc.addDimension(['posSC']);
 
                     // Iterates through each applicant for more specific items
                     $scope.applicantList.map(function(applicant) {
                         applicant.id = $scope.applicantList.indexOf(applicant);
                         var tempPosition = [];
-                        if(applicant.posDG)
-                            tempPosition.push('Director General');
-                        if(applicant.posADG)
-                            tempPosition.push('Assistant Director General');
-                        if(applicant.posPR)
-                            tempPosition.push('USG of Public Relations');
-                        if(applicant.posF)
-                            tempPosition.push('USG of Finance');
-                        if(applicant.posL)
-                            tempPosition.push('USG of Logistics');
-
-                        var tempExpStaff = JSON.parse(applicant.experienceStaff);
-                        applicant.experienceStaff = tempExpStaff;
-                        debugVars.experienceStaff = applicant.experienceStaff;
-
-                        var tempExpGen = JSON.parse(applicant.experienceGeneral);
-                        applicant.experienceGeneral = tempExpGen;
+                        if(applicant.posICJ)
+                            tempPosition.push('International Criminal Court');
+                        if(applicant.posGA4)
+                            tempPosition.push('General Assembly - Fourth Committee');
+                        if(applicant.posHRC)
+                            tempPosition.push('Human Rights Council');
+                        if(applicant.posUNEP)
+                            tempPosition.push('UN Environmental Program');
+                        if(applicant.posUNODC)
+                            tempPosition.push('UN Office on Drugs and Crime');
+                        if(applicant.posECOSOC)
+                            tempPosition.push('UN Economic and Social Council');
+                        if(applicant.posSC)
+                            tempPosition.push('UN Security Council');
 
                         applicant.positions = tempPosition;
                     })

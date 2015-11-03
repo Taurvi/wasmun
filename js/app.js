@@ -85,7 +85,7 @@ ngApp.controller('CtrlDirector', ['$scope', '$location', function($scope, $locat
 
         dataPackage.why = $scope.ngEnterWhy;
         dataPackage.enterPast = $scope.ngEnterPast;
-        dataPackage.enterTopics = $scope.ngeEnterTopics;
+        dataPackage.enterTopics = $scope.ngEnterTopics;
         dataPackage.enterCollab = $scope.ngEnterCollab;
         dataPackage.status = "review";
         /*var socket = io.connect('http://node.wasmun.org');
