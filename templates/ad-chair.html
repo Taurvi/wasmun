@@ -65,7 +65,7 @@
             <div class="col-sm-6">
                 <div class="form-group text-center">
                     <label for="adRequest">Assistant Director</label> <a href="" ng-click="resetField('ad')">(Reset)</a>
-                    <select multiple class="form-control" id="adRequest" name="adRequest" ng-model="ngAdRequest" size="6" ng-multiple="true" required>
+                    <select multiple class="form-control" id="adRequest" name="adRequest" ng-model="ngAdRequest" size="6" ng-multiple="true">
                         <option style="display:none" value=""></option>
                         <option value="icj">ICJ</option>
                         <option value="ecosoc">ECOSOC</option>
@@ -79,7 +79,7 @@
             <div class="col-sm-6">
                 <div class="form-group text-center">
                     <label for="chairRequest">Chair</label> <a href="" ng-click="resetField('chair')">(Reset)</a>
-                    <select multiple class="form-control" id="chairRequest" name="chairRequest" ng-model="ngChairRequest" size="6" ng-multiple="true" required>
+                    <select multiple class="form-control" id="chairRequest" name="chairRequest" ng-model="ngChairRequest" size="6" ng-multiple="true">
                         <option style="display:none" value=""></option>
                         <option value="icj">ICJ</option>
                         <option value="ecosoc">ECOSOC</option>
@@ -139,20 +139,65 @@
             <textarea class="form-control" rows="5" id="enterAvail" name="enterAvail" ng-model="ngEnterAvail" required></textarea>
         </div>
 
+        <div ng-show="ngAdRequest.length != 0">
+            <div class="row text-center text-info"><strong>**The following questions are required for Assistant Directors**</strong></div><br>
+
+            <div class="form-group" ng-class="{'has-error': formEnter.ad1.$invalid && formEnter.ad1.$touched, 'has-success': formEnter.ad1.$valid && formEnter.ad1.$touched}">
+                <label for="ad1">Given the committees that you have selected, what topics would you be interested in pursuing as a member of the DIAS?</label>
+                <div class="error-message" ng-show="formEnter.ad1.$invalid && formEnter.ad1.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter in the topics you are interested in pursuing for your selected committees.
+                </div>
+                <textarea class="form-control" rows="5" id="ad1" name="ad1" ng-model="ngAd1" ng-required="ngAdRequest.length != 0"></textarea>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': formEnter.ad2.$invalid && formEnter.ad2.$touched, 'has-success': formEnter.ad2.$valid && formEnter.ad2.$touched}">
+                <label for="ad2">What is your interest in the committees that you have selected? Do you have any experience with relevant fields or work or study? If so, please list them. </label>
+                <div class="error-message" ng-show="formEnter.ad2.$invalid && formEnter.ad2.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please explain your interest and relevant experiences with the committee.
+                </div>
+                <textarea class="form-control" rows="5" id="ad2" name="ad2" ng-model="ngAd2" ng-required="ngAdRequest.length != 0"></textarea>
+            </div>
 
 
-        <!--<div class="checkbox">-->
-            <!--<label class="control-label" style="font-weight: bold"><input type="checkbox" id="enterAvailable" ng-model="ngEnterAvailable" required>I am available on March 5 and March 6.</label>-->
-        <!--</div>-->
+            <div class="form-group" ng-class="{'has-error': formEnter.ad3.$invalid && formEnter.ad3.$touched, 'has-success': formEnter.ad3.$valid && formEnter.ad3.$touched}">
+                <label for="ad3">An important role for Assistant Directors is writing a portion of the background guide for delegates. How much familiarity do you have with background guides and how will you cater your background guides for high school delegates?</label>
+                <div class="error-message" ng-show="formEnter.ad3.$invalid && formEnter.ad3.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please describe how you will cater your background guides for high school delegates.
+                </div>
+                <textarea class="form-control" rows="5" id="ad3" name="ad3" ng-model="ngAd3" ng-required="ngAdRequest.length != 0"></textarea>
+            </div>
+        </div>
 
+
+        <div ng-show="ngChairRequest.length != 0">
+            <div class="row text-center text-info"><strong>**The following questions are required for Chairs**</strong></div><br>
+
+            <div class="form-group" ng-class="{'has-error': formEnter.chair1.$invalid && formEnter.chair1.$touched, 'has-success': formEnter.chair1.$valid && formEnter.chair1.$touched}">
+                <label for="chair1">A necessity for Chairs is an ability to maintain order during committee session, especially in larger committees. What experience or ideas do you have for managing larger groups during committee session?</label>
+                <div class="error-message" ng-show="formEnter.chair1.$invalid && formEnter.chair1.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please enter in your ideas and experience managing larger groups.
+                </div>
+                <textarea class="form-control" rows="5" id="chair1" name="chair1" ng-model="ngChair1" ng-required="ngChairRequest.length != 0"></textarea>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': formEnter.chair2.$invalid && formEnter.chair2.$touched, 'has-success': formEnter.chair2.$valid && formEnter.chair2.$touched}">
+                <label for="chair2">One of the most important parts about being a chair is a solid understanding of the procedures of a committee, and being able to project the competence of the DIAS. While WASMUN isn’t as long as a collegiate conference, it still is quite exhausting and stressful, which can cause the Chair to make mistakes. In the off-chance you do make a procedural or technical mistake, how do plan on or expect to handle the situation afterwards?</label>
+                <div class="error-message" ng-show="formEnter.chair2.$invalid && formEnter.chair2.$touched">
+                    <i class="fa fa-exclamation-triangle"></i> Please answer the scenario question.
+                </div>
+                <textarea class="form-control" rows="5" id="chair2" name="chair2" ng-model="ngChair2" ng-required="ngChairRequest.length != 0"></textarea>
+            </div>
+        </div>
 
     </div>
 </form>
 
+{{formEnter.$valid}}
+{{checkAdChair()}}
 <div class="col-md-6 center-block">
     <div class="text-center">
-        <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" ng-click="submitForm()" ng-disabled="formInfo.$invalid || formEnter.$invalid">Submit Application</button>
-        <div class="error-message" ng-show="formInfo.$invalid || formEnter.$invalid">
+        <button type="button" class="btn btn-success btn-lg"  data-toggle="modal" ng-click="submitForm()" ng-disabled="formInfo.$invalid || !formEnter.$valid || !checkAdChair()">Submit Application</button>
+        <div class="error-message" ng-show="formInfo.$invalid || !formEnter.$valid || !checkAdChair()">
             <i class="fa fa-exclamation-triangle"></i> Elements of the application form are incomplete still. Please check that you have filled out all the required fields, indicated with asterisks (*).
         </div>
     </div>

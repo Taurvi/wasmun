@@ -46,7 +46,7 @@ ngApp.config(function($routeProvider) {
         })
 });
 
-ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $location){
+ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $location) {
     $scope.contactMethods = [
         {name: 'Select your preferred method of communication', value: null},
         {name: 'Text Message', value: 'sms'},
@@ -55,7 +55,24 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
         {name: 'Facebook', value: 'fb'}
     ];
 
+    $scope.ngAdRequest = [];
+    $scope.ngChairRequest = [];
+
+    $scope.ngAd1 = '';
+    $scope.ngAd2 = '';
+    $scope.ngAd3 = '';
+
+    $scope.ngChair1 = '';
+    $scope.ngChair2 = '';
+
     $scope.ngFormContact = null;
+
+    $scope.checkAdChair = function() {
+        if ($scope.ngAdRequest.length > 0 || $scope.ngChairRequest.length > 0)
+            return true;
+        else
+            return false;
+    }
 
     $scope.resetField = function(field) {
         if (field == 'ad')
@@ -88,6 +105,14 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
         dataPackage.enterCollab = $scope.ngEnterCollab;
         dataPackage.enterAvail = $scope.ngEnterAvail;
 
+
+        dataPackage.ad1 = $scope.ngAd1;
+        dataPackage.ad2 = $scope.ngAd2;
+        dataPackage.ad3 = $scope.ngAd3;
+
+        dataPackage.chair1 = $scope.ngChair1;
+        dataPackage.chair2 = $scope.ngChair2;
+
         dataPackage.status = "review";
         /*var socket = io.connect('http://node.wasmun.org');
          socket.on('connect', function() {
@@ -117,6 +142,15 @@ ngApp.controller('CtrlSubmit3', ['$scope', '$location', '$timeout', function($sc
     newADCApp.set('enterPast', dataPackage.enterPast);
     newADCApp.set('enterCollab', dataPackage.enterCollab);
     newADCApp.set('enterAvail', dataPackage.enterAvail);
+
+
+    newADCApp.set('ad1', dataPackage.ad1);
+    newADCApp.set('ad2', dataPackage.ad2);
+    newADCApp.set('ad3', dataPackage.ad3);
+
+    newADCApp.set('chair1', dataPackage.chair1);
+    newADCApp.set('chair2', dataPackage.chair2);
+
 
     newADCApp.save().then(function(newADCApp) {
         debugMsg('Form successfully submitted.');
