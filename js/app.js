@@ -37,14 +37,99 @@ ngApp.config(function($routeProvider) {
         //    controller: 'CtrlApply'
         //})
         .when('/', {
-            templateUrl: 'templates/director.html',
-            controller: 'CtrlDirector'
+            templateUrl: 'templates/ad-chair.html',
+            controller: 'CtrlAdChair'
         })
         .when('/submit', {
             templateUrl: 'templates/submit.html',
-            controller: 'CtrlSubmit2'
+            controller: 'CtrlSubmit3'
         })
 });
+
+ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $location){
+    $scope.contactMethods = [
+        {name: 'Select your preferred method of communication', value: null},
+        {name: 'Text Message', value: 'sms'},
+        {name: 'Phone Call', value: 'call'},
+        {name: 'Email', value: 'email'},
+        {name: 'Facebook', value: 'fb'}
+    ];
+
+    $scope.ngFormContact = null;
+
+    $scope.resetField = function(field) {
+        if (field == 'ad')
+            $scope.ngAdRequest = '';
+        if (field == 'chair')
+            $scope.ngChairRequest = '';
+    }
+
+    $scope.verifyBoolean = function(boo) {
+        if(!boo)
+            return false;
+        else
+            return true;
+    };
+
+
+    $scope.submitForm = function() {
+        dataPackage.name = $scope.ngFormName;
+        dataPackage.email = $scope.ngFormEmail;
+        dataPackage.phone = $scope.ngFormPhone;
+        dataPackage.bestContact = $scope.ngFormContact;
+        dataPackage.occupation = $scope.ngFormJob;
+
+        dataPackage.adRequest = $scope.ngAdRequest;
+        dataPackage.chairRequest = $scope.ngChairRequest;
+
+        dataPackage.enterInterest = $scope.ngEnterInterest;
+        dataPackage.enterPastWasmun = $scope.ngEnterPastWasmun;
+        dataPackage.enterPast = $scope.ngEnterPast;
+        dataPackage.enterCollab = $scope.ngEnterCollab;
+        dataPackage.enterAvail = $scope.ngEnterAvail;
+
+        dataPackage.status = "review";
+        /*var socket = io.connect('http://node.wasmun.org');
+         socket.on('connect', function() {
+         scoket.emit('formData', 'This form does not feel like doing anything!')
+         });*/
+        $location.path("/submit");
+    }
+}]);
+
+ngApp.controller('CtrlSubmit3', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+    debugMsg('registerToDatabase() called.');
+    var ADCApplications = Parse.Object.extend('ADCApplications');
+    debugMsg('Extended Parse table: ADCApplications');
+    var newADCApp = new ADCApplications();
+    debugMsg('Created new AD/Chair App.');
+
+    newADCApp.set('name', dataPackage.name);
+    newADCApp.set('email', dataPackage.email);
+    newADCApp.set('phone', dataPackage.phone);
+    newADCApp.set('bestContact', dataPackage.bestContact);
+    newADCApp.set('occupation', dataPackage.occupation);
+    newADCApp.set('adRequest', dataPackage.adRequest);
+    newADCApp.set('chairRequest', dataPackage.chairRequest);
+
+    newADCApp.set('enterInterest', dataPackage.enterInterest);
+    newADCApp.set('enterPastWasmun', dataPackage.enterPastWasmun);
+    newADCApp.set('enterPast', dataPackage.enterPast);
+    newADCApp.set('enterCollab', dataPackage.enterCollab);
+    newADCApp.set('enterAvail', dataPackage.enterAvail);
+
+    newADCApp.save().then(function(newADCApp) {
+        debugMsg('Form successfully submitted.');
+        $('#register-id').text(newADCApp.id);
+        $('#submitPending').css('display', 'none');
+        $('#submitSuccess').css('display', 'initial');
+    }, function() {
+        debugMsg('Form failed.');
+        $('#submitPending').css('display', 'none');
+        $('#submitFail').css('display', 'initial');
+    })
+}]);
+
 
 
 ngApp.controller('CtrlDirector', ['$scope', '$location', function($scope, $location) {
