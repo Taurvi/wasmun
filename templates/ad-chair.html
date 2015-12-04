@@ -62,6 +62,12 @@
 
 
         <div class="row">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="ngHomeGovernment">
+                    Home Government
+                </label>
+            </div><br>
             <div class="col-sm-6">
                 <div class="form-group text-center">
                     <label for="adRequest">Assistant Director</label> <a href="" ng-click="resetField('ad')">(Reset)</a>
@@ -123,12 +129,28 @@
             <textarea class="form-control" rows="5" id="enterPast" name="enterPast" ng-model="ngEnterPast" required></textarea>
         </div>
 
-        <div class="form-group" ng-class="{'has-error': formEnter.enterCollab.$invalid && formEnter.enterCollab.$touched, 'has-success': formEnter.enterCollab.$valid && formEnter.enterCollab.$touched}">
+        <div class="form-group" ng-show="ngAdRequest.length != 0 || ngChairRequest.length != 0" ng-class="{'has-error': formEnter.enterCollab.$invalid && formEnter.enterCollab.$touched, 'has-success': formEnter.enterCollab.$valid && formEnter.enterCollab.$touched}">
             <label for="enterCollab">*How do you see yourself working with the other members of your committees DIAS, the Director General, and the Assistant Director General?</label>
             <div class="error-message" ng-show="formEnter.enterCollab.$invalid && formEnter.enterCollab.$touched">
                 <i class="fa fa-exclamation-triangle"></i> Please explain how you see yourself working with other Dias.
             </div>
-            <textarea class="form-control" rows="5" id="enterCollab" name="enterCollab" ng-model="ngEnterCollab" required></textarea>
+            <textarea class="form-control" rows="5" id="enterCollab" name="enterCollab" ng-model="ngEnterCollab" ng-required="ngAdRequest.length != 0 || ngChairRequest.length != 0"></textarea>
+        </div>
+
+        <div class="form-group" ng-show="ngHomeGovernment" ng-class="{'has-error': formEnter.enterCollabHg.$invalid && formEnter.enterCollabHg.$touched, 'has-success': formEnter.enterCollabHg.$valid && formEnter.enterCollabHg.$touched}">
+            <label for="enterCollabHg">*How do you see yourself working with the other members of Home Government (for example Director or another Assistant Director)?</label>
+            <div class="error-message" ng-show="formEnter.enterCollabHg.$invalid && formEnter.enterCollabHg.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain how you see yourself working with other members of Home Government.
+            </div>
+            <textarea class="form-control" rows="5" id="enterCollabHg" name="enterCollabHg" ng-model="ngEnterCollabHg" ng-required="ngHomeGovernment"></textarea>
+        </div>
+
+        <div class="form-group" ng-show="ngHomeGovernment" ng-class="{'has-error': formEnter.hg1.$invalid && formEnter.hg1.$touched, 'has-success': formEnter.hg1.$valid && formEnter.hg1.$touched}">
+            <label for="hg1">*Positions in Home Government require an extensive amount of knowledge and experience in Model UN conferences, particularly for the committees we have selected for WASMUN 2016. What experience do you have in the following committees: ECOSOC, UNEP, UNODC, HRC, ICJ, GA4. Please provide a detailed summary of your exposure to each committee. </label>
+            <div class="error-message" ng-show="formEnter.hg1.$invalid && formEnter.hg1.$touched">
+                <i class="fa fa-exclamation-triangle"></i> Please explain your exposure to the various committees.
+            </div>
+            <textarea class="form-control" rows="5" id="hg1" name="hg1" ng-model="ngHg1" ng-required="ngHomeGovernment"></textarea>
         </div>
 
         <div class="form-group" ng-class="{'has-error': formEnter.enterAvail.$invalid && formEnter.enterAvail.$touched, 'has-success': formEnter.enterAvail.$valid && formEnter.enterAvail.$touched}">

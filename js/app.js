@@ -68,6 +68,8 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
     $scope.ngFormContact = null;
 
     $scope.checkAdChair = function() {
+        if ($scope.ngHomeGovernment)
+            return true;
         if ($scope.ngAdRequest.length > 0 || $scope.ngChairRequest.length > 0)
             return true;
         else
@@ -96,6 +98,7 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
         dataPackage.bestContact = $scope.ngFormContact;
         dataPackage.occupation = $scope.ngFormJob;
 
+        dataPackage.hgRequest = $scope.ngHomeGovernment;
         dataPackage.adRequest = $scope.ngAdRequest;
         dataPackage.chairRequest = $scope.ngChairRequest;
 
@@ -105,6 +108,8 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
         dataPackage.enterCollab = $scope.ngEnterCollab;
         dataPackage.enterAvail = $scope.ngEnterAvail;
 
+        dataPackage.enterCollabHg = $scope.ngEnterCollabHg;
+        dataPackage.hg1 = $scope.ngHg1;
 
         dataPackage.ad1 = $scope.ngAd1;
         dataPackage.ad2 = $scope.ngAd2;
@@ -118,6 +123,8 @@ ngApp.controller('CtrlAdChair', ['$scope', '$location', function($scope, $locati
          socket.on('connect', function() {
          scoket.emit('formData', 'This form does not feel like doing anything!')
          });*/
+
+        console.log(dataPackage);
         $location.path("/submit");
     }
 }]);
@@ -134,6 +141,8 @@ ngApp.controller('CtrlSubmit3', ['$scope', '$location', '$timeout', function($sc
     newADCApp.set('phone', dataPackage.phone);
     newADCApp.set('bestContact', dataPackage.bestContact);
     newADCApp.set('occupation', dataPackage.occupation);
+
+    newADCApp.set('hgRequest', dataPackage.hgRequest);
     newADCApp.set('adRequest', dataPackage.adRequest);
     newADCApp.set('chairRequest', dataPackage.chairRequest);
 
@@ -143,6 +152,8 @@ ngApp.controller('CtrlSubmit3', ['$scope', '$location', '$timeout', function($sc
     newADCApp.set('enterCollab', dataPackage.enterCollab);
     newADCApp.set('enterAvail', dataPackage.enterAvail);
 
+    newADCApp.set('enterCollabHg', dataPackage.enterCollabHg);
+    newADCApp.set('hg1', dataPackage.hg1);
 
     newADCApp.set('ad1', dataPackage.ad1);
     newADCApp.set('ad2', dataPackage.ad2);
@@ -188,6 +199,7 @@ ngApp.controller('CtrlDirector', ['$scope', '$location', function($scope, $locat
     }
 
     $scope.submitForm = function() {
+
         dataPackage.name = $scope.ngFormName;
         dataPackage.email = $scope.ngFormEmail;
         dataPackage.phone = $scope.ngFormPhone;
