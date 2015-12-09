@@ -1,0 +1,170 @@
+<div class="row" ng-init="readDatabase()">
+    <div class="col-sm-3">
+        <form name="filterOptions">
+            <div class="form-group">
+                <label for="filterName">Filter by Name:</label>
+                <input type="text" name="filterName" id="filterName" ng-model="ngFilterName" placeholder="Search name" ng-change="$ngc.filterBy('name', ngFilterName, $ngc.filters.fuzzy('i'));">
+            </div>
+
+            <!--<div class="form-group">
+                <label>Filter by Role: </label>
+                <div>
+                    <input type="checkbox" ng-model="ngPosDG" ng-click="posFilter($ngc, 'posDG', ngPosDG)"> Director General
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosADG" ng-click="posFilter($ngc, 'posADG', ngPosADG)"> Assistant Director General
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosPR" ng-click="posFilter($ngc, 'posPR', ngPosPR)"> Public Relations
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosL" ng-click="posFilter($ngc, 'posL', ngPosL)"> USG of Logistics
+                </div>
+                <div>
+                    <input type="checkbox" ng-model="ngPosF" ng-click="posFilter($ngc, 'posF', ngPosF)"> USG of Finance
+                </div>
+            </div>-->
+
+            <!--
+            <div class="form-group">
+                <label>Filter by Status: </label>
+                <div ng-repeat="status in selectedStatus">
+                    <input
+                            type = "checkbox"
+                            name = "{{status.short}}"
+                            value = "{{status.short}}"
+                            > {{status.name}}
+                </div>
+            </div>
+            -->
+
+        </form>
+    </div>
+
+    <div class="col-sm-3">
+        <div role="alert" class="alert" ng-repeat="applicant in $ngc.collection()" id="{{applicant.id}}" ng-click="selectOption(applicant.id)">
+            {{applicant.name}}
+        </div>
+    </div>
+
+    <div class="col-sm-6" ng-hide="!selectedApplicant">
+        <!--Application Information:
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Application Status</th>
+                <td>{{selectedApplicant.status}}</td>
+            </tr>
+        </table>-->
+        <strong>General Information:</strong>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="col-sm-4">Name</th>
+                <td>{{selectedApplicant.name}}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><a href="mailto:{{selectedApplicant.email}}">{{selectedApplicant.email}}</a></td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{selectedApplicant.phone}}</td>
+            </tr>
+            <tr>
+                <th>Best Method of Contact</th>
+                <td>{{convertComms(selectedApplicant.bestContact)}}</td>
+            </tr>
+            <tr>
+                <th>Positions Requested</th>
+                <!--<td><li ng-repeat="position in selectedApplicant.positions">{{position}}</li></td>-->
+                <td>
+                    <div ng-if="selectedApplicant.hgRequest">
+                        <strong>Home Government</strong>
+                    </div>
+                    <div ng-if="selectedApplicant.adRequest.length > 0">
+                        <strong>Assistant Director Positions</strong>
+                        <ul>
+                            <li ng-repeat="adPos in selectedApplicant.adRequest">{{convertCommittee(adPos)}}</li>
+                        </ul>
+                    </div>
+                    <div ng-if="selectedApplicant.chairRequest.length > 0">
+                        <strong>Chair Positions</strong>
+                        <ul>
+                            <li ng-repeat="chairPos in selectedApplicant.chairRequest">{{convertCommittee(chairPos)}}</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <strong>Short Answer Responses:</strong>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>What is your avilability like?</th>
+                <td>{{selectedApplicant.enterAvail}}</td>
+            </tr>
+            <tr>
+                <th class="col-sm-4">Why are you interested in WASMUN?</th>
+                <td class="col-sm-8">{{selectedApplicant.enterInterest}}</td>
+            </tr>
+            <tr>
+                <th>What experience with WASMUN do you have?</th>
+                <td>{{selectedApplicant.enterPastWasmun}}</td>
+            </tr>
+            <tr>
+                <th>Besides WASMUN, have you had any experience with MUN?</th>
+                <td>{{selectedApplicant.enterPast}}</td>
+            </tr>
+        </table>
+        <div ng-if="selectedApplicant.hgRequest">
+            <strong>Home Government Responses:</strong>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>How do you see yourself working with the other members of Home Government (for example Director or another Assistant Director)?</th>
+                    <td>{{selectedApplicant.enterCollabHg}}</td>
+                </tr>
+                <tr>
+                    <th class="col-sm-4">Positions in Home Government require an extensive amount of knowledge and experience in Model UN conferences, particularly for the committees we have selected for WASMUN 2016. What experience do you have in the following committees: ECOSOC, UNEP, UNODC, HRC, ICJ, GA4. Please provide a detailed summary of your exposure to each committee.</th>
+                    <td class="col-sm-8">{{selectedApplicant.hg1}}</td>
+                </tr>
+            </table>
+        </div>
+        <div ng-if="selectedApplicant.adRequest.length > 0">
+            <strong>Assistant Director Responses:</strong>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>How do you see yourself working with the other members of your committees DIAS, the Director General, and the Assistant Director General?</th>
+                    <td>{{selectedApplicant.enterCollab}}</td>
+                </tr>
+                <tr>
+                    <th class="col-sm-4">Given the committees that you have selected, what topics would you be interested in pursuing as a member of the DIAS?</th>
+                    <td class="col-sm-8">{{selectedApplicant.ad1}}</td>
+                </tr>
+                <tr>
+                    <th>What is your interest in the committees that you have selected? Do you have any experience with relevant fields or work or study? If so, please list them.</th>
+                    <td>{{selectedApplicant.ad2}}</td>
+                </tr>
+                <tr>
+                    <th>An important role for Assistant Directors is writing a portion of the background guide for delegates. How much familiarity do you have with background guides and how will you cater your background guides for high school delegates?</th>
+                    <td>{{selectedApplicant.ad3}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div ng-if="selectedApplicant.chairRequest.length > 0">
+            <strong>Chair Responses:</strong>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>How do you see yourself working with the other members of your committees DIAS, the Director General, and the Assistant Director General?</th>
+                    <td>{{selectedApplicant.enterCollab}}</td>
+                </tr>
+                <tr>
+                    <th class="col-sm-4">A necessity for Chairs is an ability to maintain order during committee session, especially in larger committees. What experience or ideas do you have for managing larger groups during committee session?</th>
+                    <td class="col-sm-8">{{selectedApplicant.chair1}}</td>
+                </tr>
+                <tr>
+                    <th>One of the most important parts about being a chair is a solid understanding of the procedures of a committee, and being able to project the competence of the DIAS. While WASMUN isn’t as long as a collegiate conference, it still is quite exhausting and stressful, which can cause the Chair to make mistakes. In the off-chance you do make a procedural or technical mistake, how do you plan on or expect to handle the situation afterwards?</th>
+                    <td>{{selectedApplicant.chair2}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

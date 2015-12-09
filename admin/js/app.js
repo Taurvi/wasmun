@@ -18,13 +18,57 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngCrossfilter']);
 ngApp.config(function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'templates/director.html',
+            templateUrl: 'templates/adc.html',
             controller: 'CtrlDisplay'
         })
 });
 
 ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function($scope, $location, Crossfilter) {
     $scope.$ngc;
+
+    $scope.convertComms = function(shortName) {
+        switch(shortName) {
+            case 'sms':
+                return 'Text Message';
+                break;
+            case 'call':
+                return 'Phone Call';
+                break;
+            case 'email':
+                return 'Email';
+                break;
+            case 'fb':
+                return 'Facebook';
+                break;
+            default:
+                return 'error';
+        }
+    };
+
+    $scope.convertCommittee = function(shortName) {
+        switch(shortName) {
+            case 'icj':
+                return 'Intl. Court of Justice';
+                break;
+            case 'ecosoc':
+                return 'ECOSOC';
+                break;
+            case 'hrc':
+                return 'Human Rights Council';
+                break;
+            case 'unodc':
+                return 'UN Office on Drugs and Crime';
+                break;
+            case 'ga4':
+                return 'General Assembly 4';
+                break;
+            case 'unep':
+                return 'UN Environmental Program';
+                break;
+            default:
+                return 'error';
+        }
+    };
 
     // Enables a dynamic checkbox list for the various roles.
     $scope.selectedRoles = [
@@ -100,9 +144,9 @@ ngApp.controller('CtrlDisplay', ['$scope', '$location', 'Crossfilter', function(
 
     // Gets the data from the database
     $scope.readDatabase = function() {
-        var DApplications = Parse.Object.extend('DApplications');
+        var ADCApplications = Parse.Object.extend('ADCApplications');
 
-        var queryApplications = new Parse.Query(DApplications);
+        var queryApplications = new Parse.Query(ADCApplications);
 
         var tempArray = [];
 

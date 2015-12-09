@@ -149,9 +149,10 @@ ngApp.controller('CtrlSubmit3', ['$scope', '$location', '$timeout', function($sc
     newADCApp.set('enterInterest', dataPackage.enterInterest);
     newADCApp.set('enterPastWasmun', dataPackage.enterPastWasmun);
     newADCApp.set('enterPast', dataPackage.enterPast);
-    newADCApp.set('enterCollab', dataPackage.enterCollab);
+
     newADCApp.set('enterAvail', dataPackage.enterAvail);
 
+    newADCApp.set('enterCollab', dataPackage.enterCollab);
     newADCApp.set('enterCollabHg', dataPackage.enterCollabHg);
     newADCApp.set('hg1', dataPackage.hg1);
 
